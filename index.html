@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <title>To-Do-List</title>
+  </head>
+  <body>
+    <div class="header">
+      <div class="header__container">
+        <h1 class="header-title">Welcome to my To-Do-List page</h1>
+        <div class="header-description">
+          <p class="header-description-text"></p>
+          <button class="header-description-btn">-></button>
+        </div>
+        <button class="header-change-name">Change user name</button>
+        <h3 class="header-name">None</h3>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="main__container">
+        <div class="main-up">
+          <div class="create-todo">
+            <h2 class="create-todo-text">Create a To-Do:</h2>
+            <button class="create-todo-btn">Create</button>
+          </div>
+        </div>
+        <div class="main-down"></div>
+      </div>
+    </div>
+
+    <div class="modal-overflow">
+      <div class="modal">
+        <form class="modal__container">
+          <h3 class="modal-title">
+            Please enter the name and description of To-do
+          </h3>
+          <div class="modal-inputs">
+            <input class="modal-title-input" placeholder="Name" type="text" />
+            <input
+              class="modal-description-input"
+              placeholder="Description"
+              type="text"
+            />
+          </div>
+          <div class="modal__btns">
+            <button type="submit" class="modal-create-todo-btn">Create</button>
+            <button type="submit" class="modal-confirm-todo-btn">Confirm</button>
+            <button type="button" class="modal-close-btn">Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
