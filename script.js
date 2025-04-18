@@ -107,6 +107,7 @@ const renderTodos = () => {
 			<p class="todo__description">${todo.description}</p>
 		</div>
 		<div class="todo-btns">
+			<button class="todo-status-btn">Done</button>
 			<button class="todo-change-btn">Change</button>
 			<button class="todo-delete-btn">Delete</button>
 		</div>
@@ -133,6 +134,17 @@ const renderTodos = () => {
       modalTitleInput.value = todos[currentTodoIndex].title;
       modalDescriptionInput.value = todos[currentTodoIndex].description;
     });
+
+    const todoStatusBatton = todoItem.querySelector(".todo-status-btn");
+
+    todoStatusBatton.addEventListener("click", () => {
+      todo.completed = !todo.completed;
+      renderTodos();
+    });
+
+    if (todo.completed) {
+      todoStatusBatton.classList.add("todo-status-btn-completed");
+    }
 
     mainDown.appendChild(todoItem);
   }
