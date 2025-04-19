@@ -20,6 +20,8 @@ const headerDescriptionButton = document.querySelector(
 );
 const userNameButton = document.querySelector(".header-change-name");
 const userName = document.querySelector(".header-name");
+const filterArrow = document.querySelector(".filter-img");
+const filterMenu = document.querySelector(".filter-dropdown-menu");
 
 // Data
 const todos = [];
@@ -32,11 +34,19 @@ const headerDescriptions = [
   "New task? Let's write it down.",
 ];
 let headerDescriptionCount = 0;
+let currentFilter = "all";
 
 // Todos render
 function renderTodos() {
   mainDown.innerHTML = "";
-  todos.forEach((todo) => {
+
+	const filteredTodos = todos.filter((todo) => {
+    if (currentFilter === "completed") return todo.completed;
+    if (currentFilter === "uncompleted") return !todo.completed;
+    return true;
+  });
+
+  filteredTodos.forEach((todo) => {
     const element = createTodoElement(todo);
     mainDown.appendChild(element);
   });
@@ -197,6 +207,20 @@ modalConfirmButton.addEventListener("click", (event) => {
 // headerDescription
 headerDescriptionButton.addEventListener("click", changeHeaderDescription);
 userNameButton.onclick = setUserName;
+
+// filterArrow
+filterArrow.addEventListener("click", () => {
+  filterArrow.classList.toggle("rotated");
+  filterMenu.classList.toggle("hidden");
+});
+
+filterMenu.addEventListener("click", (element) => {
+  if (element.target.tagName === "LI") {
+    currentFilter = element.target.dataset.filter;
+    renderTodos();
+    filterMenu.classList.add("hidden");
+  }
+});
 
 // fetch
 fetch("https://jsonplaceholder.typicode.com/todos?_limit=12")

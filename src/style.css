@@ -2,6 +2,8 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+
   button {
     color: white;
     border: none;
@@ -59,6 +61,7 @@
 }
 .main-up {
   display: flex;
+  justify-content: space-between;
 }
 .create-todo {
   display: flex;
@@ -71,6 +74,49 @@
 .create-todo-btn {
   background-color: #4caf50;
 }
+.filter {
+  position: relative;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+
+  .filter-text {
+    font-size: 30px;
+    font-weight: 500;
+  }
+  .filter-img {
+    width: 33px;
+    height: 12px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  .filter-img.rotated {
+    transform: rotate(180deg);
+  }
+  .filter-dropdown-menu {
+    position: absolute;
+    width: 155px;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    list-style: none;
+    padding: 5px 0;
+    margin: 5px 0 0 0;
+    z-index: 10;
+
+    li {
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+  }
+}
+
+.hidden {
+  display: none;
+}
+
 .main-down {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
