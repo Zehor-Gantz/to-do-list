@@ -74,6 +74,11 @@
 .create-todo-btn {
   background-color: #4caf50;
 }
+
+.filter-group {
+  display: flex;
+  gap: 10px;
+}
 .filter {
   position: relative;
   display: flex;
@@ -148,6 +153,11 @@
   .todo__description {
     font-size: 20px;
   }
+  .todo__date {
+		text-align: right;
+    font-size: 16px;
+    color: gray;
+  }
 }
 
 .todo-btns {
@@ -184,7 +194,7 @@
 }
 
 .modal {
-  width: 580px;
+  width: 600px;
   height: 220px;
   margin: auto;
   border-radius: 20px;

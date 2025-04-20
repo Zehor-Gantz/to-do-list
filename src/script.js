@@ -20,12 +20,10 @@ const headerDescriptionButton = document.querySelector(
 );
 const userNameButton = document.querySelector(".header-change-name");
 const userName = document.querySelector(".header-name");
-const filterArrow = document.querySelector(".filter-img");
-const filterMenu = document.querySelector(".filter-dropdown-menu");
+const filterArrows = document.querySelectorAll(".filter-img");
 
 // Data
 const todos = [];
-let currentTodoIndex = null;
 const headerDescriptions = [
   "Create a new To-Do now!",
   "Think it. Type it. Do it.",
@@ -33,17 +31,20 @@ const headerDescriptions = [
   "Add a task and conquer your list!",
   "New task? Let's write it down.",
 ];
+const currentFilters = {
+  status: "all",
+  description: "all",
+  date: "all",
+};
+let currentTodoIndex = null;
 let headerDescriptionCount = 0;
-let currentFilter = "all";
 
 // Todos render
 function renderTodos() {
   mainDown.innerHTML = "";
 
-	const filteredTodos = todos.filter((todo) => {
-    if (currentFilter === "completed") return todo.completed;
-    if (currentFilter === "uncompleted") return !todo.completed;
-    return true;
+  const filteredTodos = todos.filter((todo) => {
+    return checkStatus(todo) && checkDescription(todo) && checkDate(todo);
   });
 
   filteredTodos.forEach((todo) => {
@@ -61,6 +62,7 @@ function createTodoElement(todo) {
     <div class="todo-header">
       <h4 class="todo__title">${todo.title}</h4>
       <p class="todo__description">${todo.description}</p>
+      <span class="todo__date">${todo.date}</span>
     </div>
     <div class="todo-btns">
       <button class="todo-status-btn">Done</button>
@@ -133,6 +135,49 @@ function changeHeaderDescription() {
     headerDescriptions[headerDescriptionCount];
 }
 
+// Filter funcs
+function checkStatus(todo) {
+  if (currentFilters.status === "completed") return todo.completed;
+  if (currentFilters.status === "uncompleted") return !todo.completed;
+  return true;
+}
+
+function checkDescription(todo) {
+  if (currentFilters.description === "with")
+    return todo.description !== "No description";
+  if (currentFilters.description === "without")
+    return todo.description === "No description";
+  return true;
+}
+
+function checkDate(todo) {
+  const todoDate = new Date(todo.date);
+  if (currentFilters.date === "today") {
+    const today = new Date();
+    return (
+      todoDate.getFullYear() === today.getFullYear() &&
+      todoDate.getMonth() === today.getMonth() &&
+      todoDate.getDate() === today.getDate()
+    );
+  }
+  if (currentFilters.date === "yesterday") {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    return (
+      todoDate.getFullYear() === yesterday.getFullYear() &&
+      todoDate.getMonth() === yesterday.getMonth() &&
+      todoDate.getDate() === yesterday.getDate()
+    );
+  }
+  if (currentFilters.date === "thisMonth") {
+    const thisMonth = new Date();
+    return (
+      todoDate.getFullYear() === thisMonth.getFullYear() &&
+      todoDate.getMonth() === thisMonth.getMonth()
+    );
+  }
+  return true;
+}
 // UserName
 function setUserName() {
   const name = prompt("Please enter your name");
@@ -181,6 +226,7 @@ modalCreateButton.addEventListener("click", (event) => {
     description: modalDescriptionInput.value,
     completed: false,
     isCustom: true,
+    date: new Date().toLocaleDateString("en-CA"),
   };
 
   todos.push(newTodo);
@@ -208,18 +254,24 @@ modalConfirmButton.addEventListener("click", (event) => {
 headerDescriptionButton.addEventListener("click", changeHeaderDescription);
 userNameButton.onclick = setUserName;
 
-// filterArrow
-filterArrow.addEventListener("click", () => {
-  filterArrow.classList.toggle("rotated");
-  filterMenu.classList.toggle("hidden");
-});
+// filterArrows
+filterArrows.forEach((arrow) => {
+  const filterMenu = arrow
+    .closest(".filter")
+    .querySelector(".filter-dropdown-menu");
+		arrow.addEventListener("click", () => {
+    arrow.classList.toggle("rotated");
+    filterMenu.classList.toggle("hidden");
+  });
 
-filterMenu.addEventListener("click", (element) => {
-  if (element.target.tagName === "LI") {
-    currentFilter = element.target.dataset.filter;
-    renderTodos();
-    filterMenu.classList.add("hidden");
-  }
+  filterMenu.addEventListener("click", (element) => {
+    if (element.target.tagName === "LI") {
+      const type = filterMenu.closest(".filter").dataset.type;
+      currentFilters[type] = element.target.dataset.filter;
+      renderTodos();
+      filterMenu.classList.add("hidden");
+    }
+  });
 });
 
 // fetch
@@ -227,12 +279,22 @@ fetch("https://jsonplaceholder.typicode.com/todos?_limit=12")
   .then((response) => response.json())
   .then((json) => {
     json.forEach((element) => {
+      const randomPastDate = new Date();
+      const maxDays = new Date(
+        randomPastDate.getFullYear(),
+        randomPastDate.getMonth() + 1,
+        0
+      ).getDate();
+      const randomDay = Math.floor(Math.random() * maxDays) + 1;
+      randomPastDate.setDate(randomDay);
+
       todos.push({
         id: element.id,
         title: element.title,
         description: "No description",
         completed: element.completed,
         isCustom: false,
+        date: randomPastDate.toLocaleDateString("en-CA"),
       });
     });
 
