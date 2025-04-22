@@ -190,7 +190,6 @@ function checkDate(todo) {
 // Search func
 function handleSearch(todo) {
   currentSearchInput = searchInput.value;
-	console.log(currentSearchInput)
   if (currentSearchInput !== "")
     return todo.title
       .toLowerCase()
@@ -276,6 +275,12 @@ userNameButton.onclick = setUserName;
 
 // Search
 searchIcon.addEventListener("click", renderTodos);
+
+searchInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    renderTodos();
+  }
+});
 
 // filterArrows
 filterArrows.forEach((arrow) => {
