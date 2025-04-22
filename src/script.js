@@ -200,8 +200,12 @@ function handleSearch(todo) {
 // UserName
 function setUserName() {
   const name = prompt("Please enter your name");
-  localStorage.setItem("name", name);
-  userName.textContent = "Your name is " + name;
+  if (name === null || name === "") {
+    userName.textContent = "Please enter your name";
+  } else {
+    localStorage.setItem("name", name);
+    userName.textContent = "Your name is " + name;
+  }
 }
 
 if (!localStorage.getItem("name")) {
