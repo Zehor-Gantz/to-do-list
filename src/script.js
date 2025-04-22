@@ -21,6 +21,8 @@ const headerDescriptionButton = document.querySelector(
 const userNameButton = document.querySelector(".header-change-name");
 const userName = document.querySelector(".header-name");
 const filterArrows = document.querySelectorAll(".filter-img");
+const searchInput = document.querySelector(".main-search-input");
+const searchIcon = document.querySelector(".search-img");
 
 // Data
 const todos = [];
@@ -38,13 +40,19 @@ const currentFilters = {
 };
 let currentTodoIndex = null;
 let headerDescriptionCount = 0;
+let currentSearchInput = "";
 
 // Todos render
 function renderTodos() {
   mainDown.innerHTML = "";
 
   const filteredTodos = todos.filter((todo) => {
-    return checkStatus(todo) && checkDescription(todo) && checkDate(todo);
+    return (
+      checkStatus(todo) &&
+      checkDescription(todo) &&
+      checkDate(todo) &&
+      handleSearch(todo)
+    );
   });
 
   filteredTodos.forEach((todo) => {
@@ -178,6 +186,18 @@ function checkDate(todo) {
   }
   return true;
 }
+
+// Search func
+function handleSearch(todo) {
+  currentSearchInput = searchInput.value;
+	console.log(currentSearchInput)
+  if (currentSearchInput !== "")
+    return todo.title
+      .toLowerCase()
+      .startsWith(currentSearchInput.toLowerCase());
+  return true;
+}
+
 // UserName
 function setUserName() {
   const name = prompt("Please enter your name");
@@ -254,12 +274,15 @@ modalConfirmButton.addEventListener("click", (event) => {
 headerDescriptionButton.addEventListener("click", changeHeaderDescription);
 userNameButton.onclick = setUserName;
 
+// Search
+searchIcon.addEventListener("click", renderTodos);
+
 // filterArrows
 filterArrows.forEach((arrow) => {
   const filterMenu = arrow
     .closest(".filter")
     .querySelector(".filter-dropdown-menu");
-		arrow.addEventListener("click", () => {
+  arrow.addEventListener("click", () => {
     arrow.classList.toggle("rotated");
     filterMenu.classList.toggle("hidden");
   });
