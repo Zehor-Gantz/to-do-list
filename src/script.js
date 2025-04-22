@@ -25,7 +25,9 @@ const searchInput = document.querySelector(".main-search-input");
 const searchIcon = document.querySelector(".search-img");
 
 // Data
-const todos = [];
+let todos = [];
+let serverTodos = [];
+
 const headerDescriptions = [
   "Create a new To-Do now!",
   "Think it. Type it. Do it.",
@@ -46,7 +48,8 @@ let currentSearchInput = "";
 function renderTodos() {
   mainDown.innerHTML = "";
 
-  const filteredTodos = todos.filter((todo) => {
+  const allTodos = [...serverTodos, ...todos];
+  const filteredTodos = allTodos.filter((todo) => {
     return (
       checkStatus(todo) &&
       checkDescription(todo) &&
@@ -101,6 +104,7 @@ function handleDelete(todoId) {
   const index = todos.findIndex((t) => t.id === todoId);
   if (index !== -1) {
     todos.splice(index, 1);
+    localStorage.setItem("storedTodos", JSON.stringify(todos));
     renderTodos();
   }
 }
@@ -111,7 +115,11 @@ function handleChange(todo) {
   modalCreateButton.style.display = "none";
   modalConfirmButton.style.display = "block";
 
-  currentTodoIndex = todos.findIndex((t) => t.id === todo.id);
+  if (todo.isCustom) {
+    currentTodoIndex = todos.findIndex((t) => t.id === todo.id);
+  } else {
+    currentTodoIndex = serverTodos.findIndex((t) => t.id === todo.id);
+  }
   modalTitleInput.value = todo.title;
   modalDescriptionInput.value = todo.description;
 }
@@ -119,6 +127,7 @@ function handleChange(todo) {
 // Todo status
 function handleToggleCompleted(todo) {
   todo.completed = !todo.completed;
+  localStorage.setItem("storedTodos", JSON.stringify(todos));
   renderTodos();
 }
 
@@ -253,17 +262,30 @@ modalCreateButton.addEventListener("click", (event) => {
   };
 
   todos.push(newTodo);
+  const storedTodos = JSON.stringify(todos);
+  localStorage.setItem("storedTodos", storedTodos);
   renderTodos();
   closeModal();
 });
+
+if (localStorage.getItem("storedTodos")) {
+  todos = JSON.parse(localStorage.getItem("storedTodos"));
+}
 
 // Confirm changes
 modalConfirmButton.addEventListener("click", (event) => {
   event.preventDefault();
 
   if (currentTodoIndex !== null) {
-    todos[currentTodoIndex].title = modalTitleInput.value;
-    todos[currentTodoIndex].description = modalDescriptionInput.value;
+    if (todos[currentTodoIndex]) {
+      todos[currentTodoIndex].title = modalTitleInput.value;
+      todos[currentTodoIndex].description = modalDescriptionInput.value;
+      localStorage.setItem("storedTodos", JSON.stringify(todos));
+    } else if (serverTodos[currentTodoIndex]) {
+      serverTodos[currentTodoIndex].title = modalTitleInput.value;
+      serverTodos[currentTodoIndex].description = modalDescriptionInput.value;
+      localStorage.setItem("storedTodos", JSON.stringify(serverTodos));
+    }
 
     renderTodos();
     closeModal();
@@ -320,7 +342,7 @@ fetch("https://jsonplaceholder.typicode.com/todos?_limit=12")
       const randomDay = Math.floor(Math.random() * maxDays) + 1;
       randomPastDate.setDate(randomDay);
 
-      todos.push({
+      serverTodos.push({
         id: element.id,
         title: element.title,
         description: "No description",
