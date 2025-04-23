@@ -82,15 +82,13 @@
 
   .main-search-input {
     padding: 5px 15px;
-		font-size: 24px;
-		border-radius: 5px;
-		border: 1px solid #000000;
-
-
+    font-size: 24px;
+    border-radius: 5px;
+    border: 1px solid #000000;
   }
   .search-img {
-		width: 40px;
-		height: 40px;
+    width: 40px;
+    height: 40px;
     cursor: pointer;
   }
 }
@@ -264,5 +262,158 @@
     .modal-close-btn {
       background-color: #adaf4c;
     }
+  }
+}
+
+@media (max-width: 1150px) {
+  .header__container,
+  .main__container {
+    padding: 20px 30px;
+  }
+
+  .header-title {
+    font-size: 30px;
+  }
+
+  .header-description-text {
+    font-size: 26px;
+  }
+
+  .main-up {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .create-todo {
+    flex: 1 1 100%;
+    justify-content: space-between;
+  }
+
+  .main-search {
+    flex: 1 1 45%;
+  }
+
+  .filter-group {
+    flex: 1 1 45%;
+    justify-content: flex-end;
+  }
+
+  .filter {
+    margin-left: 10px;
+  }
+
+  .filter-text {
+    font-size: 24px;
+  }
+
+  .main-down {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+
+  .todo {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .header__container,
+  .main__container {
+    padding: 15px;
+  }
+
+  .header-title {
+    font-size: 28px;
+  }
+
+  .header-description-text {
+    font-size: 22px;
+  }
+
+  .main-up {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .create-todo {
+    width: 100%;
+  }
+
+  .create-todo-text {
+    font-size: 22px;
+  }
+
+  .main-search {
+    width: 100%;
+  }
+
+  .main-search-input {
+    width: 100%;
+    font-size: 18px;
+  }
+
+  .filter-group {
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .filter {
+    width: 100%;
+  }
+
+  .filter-text {
+    font-size: 22px;
+  }
+
+  .main-down {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+  .todo {
+  }
+
+  .todo-btns {
+    flex-direction: column;
+  }
+
+  .modal {
+    width: 90%;
+    max-width: 400px;
+    transform: translateY(30%);
+  }
+
+  .modal-title {
+    font-size: 22px;
+  }
+
+  .modal-inputs input {
+    width: 100%;
+  }
+
+  .modal__btns {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-title {
+    font-size: 24px;
+  }
+  .header-description {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .filter-group {
+    flex-wrap: wrap;
+  }
+
+  .todo-btns {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .todo-btns button {
+    width: 100%;
   }
 }

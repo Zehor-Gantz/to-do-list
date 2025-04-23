@@ -1,6 +1,6 @@
 # 📝 To-Do List
 
-A simple To-Do app created to practice HTML, CSS and core JavaScript.
+A simple To-Do app built to improve JavaScript skills (HTML & CSS included).
 
 ## 💡 Features
 - Input and change username
@@ -8,10 +8,10 @@ A simple To-Do app created to practice HTML, CSS and core JavaScript.
 - Fetch tasks from JSONPlaceholder API
 - Add / delete / change / mark tasks as done
 - Filter tasks by status, description, and date
+- Save tasks to localStorage
+- Search functionality for tasks
+- Mobile responsiveness
 - Hosted on Firebase (check it out [here](https://to-do-list-7e187.web.app))
-- Save tasks to localStorage*(Upcoming)
-- Search functionality for tasks*(Upcoming)
-- Mobile responsiveness*(Upcoming)
 
 ## 🚀 Technologies
 HTML5, CSS3, JavaScript (Vanilla)
